@@ -17,6 +17,7 @@ type server struct {
 }
 
 func (s *server) Check(ctx context.Context, req *pb.HealthCheckRequest) (*pb.HealthCheckResponse, error) {
+	log.Printf("Received gRPC request: %+v", req)
 	return &pb.HealthCheckResponse{
 		Status:    "ok",
 		Timestamp: time.Now().Format(time.RFC3339),
