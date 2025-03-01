@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package health;
+
+option go_package = "./proto";
+
+// HealthCheckService defines the gRPC health check service.
+service HealthCheckService {
+  rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+// HealthCheckRequest is an empty request for health checks.
+message HealthCheckRequest {}
+
+// HealthCheckResponse returns the health status and timestamp.
+message HealthCheckResponse {
+  string status = 1;
+  string timestamp = 2;
+}
