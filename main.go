@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	pb "healthcheack/proto"
 )
 
@@ -29,6 +31,11 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterHealthCheckServiceServer(grpcServer, &server{})
+
+	// Register gRPC standard health check service
+	healthServer := health.NewServer()
+	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
+	healthServer.SetServingStatus("", grpc_health_v1.HealthCheckResponse_SERVING)
 
 	log.Println("gRPC server is running on port 50051")
 	if err := grpcServer.Serve(listener); err != nil {
